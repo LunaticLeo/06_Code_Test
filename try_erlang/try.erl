@@ -1,4 +1,7 @@
--module(hello).
--export([start/0]).
-start() ->
-    io:format("Hello World~n").
+-module(ex1).
+-compile(export_all).
+
+start(N)-> 
+    C = spawn(?MODULE, counter_servre, [0]),
+    [spawn(?MODULE,turnstile,[C,50])||_ <-lists:seq(1,N)],
+    C.
