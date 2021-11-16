@@ -8,7 +8,8 @@ public class try_java {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		System.out.println("a");
+		String str = new String("abc");
+		System.out.println(str.length());
 		
 	}
 
