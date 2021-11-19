@@ -1,1 +1,2 @@
-check("aa","bb")
+
+check("aa", "bb");

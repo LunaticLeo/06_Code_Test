@@ -1,7 +1,9 @@
-const check = import("./public/check.mjs")
+const { check } = require("./public/check.js")
 
-async function main(){
-    console.log( await check)
+
+
+async function main() {
+    check("aa","bb")
 }
 
 main();
