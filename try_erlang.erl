@@ -9,3 +9,15 @@ echo()->
 start()->
     Pid = spawn(fun echo/0),
     Pid ! {"aaa"}.
+
+-spec try_spec(Input::integer()) ->atom().
+
+try_spec(_)->
+    ok.
+
+try_tryCatch(Input)->
+    try Input() of
+        aa -> aa
+    catch
+        Aa -> Aa
+    end.
