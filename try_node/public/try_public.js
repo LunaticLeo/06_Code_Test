@@ -1,2 +1,2 @@
 
-check("aa", "bb");
+check("aa", "id");
