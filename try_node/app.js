@@ -1,30 +1,25 @@
 const express = require('express');
 const app = express();
-const session = require('express-session');
-const { engine } = require('express-handlebars');
+const path = require('path');
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(express.static(__dirname + '/public/'));
-app.engine('handlebars', engine({ "defaultLayout": "main" }));
-app.set('view engine', 'handlebars');
-app.set("views", "./views");
+app.use(express.static(__dirname+'/front/'));
 
-app.use(
-    session({
-        name: 'try_node',
-        secret: "This is a secret.. shhh don't tell anyone",
-        saveUninitialized: true,
-        resave: false,
-        cookie: { maxAge: 60000 }
-    })
-);
+app.get('/', (req, res) => {
+    res.sendFile('chat.html');
+});
 
-app.get("*", (req, res, next) => {
-    res.render('try', { "title": "try" });
+app.use('*', (req, res) => {
+    res.status(404).json({ error: 'Page Not found' });
 });
 
 app.listen(3000, () => {
     console.log("We've now got a server!");
     console.log('Your routes will be running on http://localhost:3000');
 });
+
+// const server = require('http').createServer(app);
+// const io = require('socket.io')(server);
+// io.on('connection', () => { /* … */ });
+// server.listen(4000, () => {
+//     console.log(`Chat Server listening to port 4000...`);
+// });

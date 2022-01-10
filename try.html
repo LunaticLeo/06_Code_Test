@@ -1,0 +1,661 @@
+<h1 id="centercs511notecenter"><center>CS 511 note</center></h1>
+
+<h2 id="concurrentprogramming"><strong>concurrent programming</strong></h2>
+
+<ul>
+<li>The study of systems of interacting computer programs which
+share resources and run concurrently, i.e. at the same time</li>
+
+<li>Parallelism
+
+
+<ul>
+<li>Occurring physically at the same time</li></ul>
+</li>
+
+<li>Concurrency
+
+
+<ul>
+<li>Occurring logically at the same time, but could be implemented without real parallelism</li></ul>
+</li>
+
+<li>If P has m instructions and Q has n instructions, then there are (m+n)!/(m!n!)</li>
+</ul>
+
+<h2 id="mutualexclusion"><strong>mutual exclusion</strong></h2>
+
+<h3 id="atomicoperation"><strong>atomic operation</strong></h3>
+
+<p>An operation is atomic if it cannot be interleaved at a lower level of abstraction</p>
+
+<ul>
+<li>Atomic operations are the smallest units in terms of which a path can be constituted</li>
+
+<li>In order to reason about concurrency at the source level, we need to know what is assumed atomic at the source level
+
+
+<ul>
+<li>Following Ben-Ari: we assume throughout this course that all (single-line) statements are atomic</li>
+
+<li>In particular, assignments such as <code>counter = counter+1</code> are assumed atomic</li></ul>
+</li>
+</ul>
+
+<h3 id="lcrlimitedcriticalreference"><strong>LCR(limited critical reference)</strong></h3>
+
+<p>A program satisfies the Limited Critical Reference (LCR) property if every statement contains at most one critical reference</p>
+
+<h3 id="mepmutualexclusionproblem"><strong>MEP(mutual exclusion problem)</strong></h3>
+
+<ol>
+<li>Mutex: At any point in time, there is at most one thread in the critical section</li>
+
+<li>Absence of livelock: If various threads try to enter the critical section, at least one of them will succeed</li>
+
+<li>Free from starvation: A thread trying to enter its critical section will eventually be able to do so</li>
+</ol>
+
+<h3 id="await"><strong>await</strong></h3>
+
+<pre><code>`while(cond){} == await (!cond)`
+</code></pre>
+
+<p><strong>await: false to loop, true to continue next excution</strong></p>
+
+<h3 id="attempt1taketruns"><strong>attempt 1 take truns</strong></h3>
+
+<pre><code>int turn = 1;
+Thread . start { // P
+    // non - critical section
+    await (turn ==1);
+    // CRITICAL SECTION
+    turn = 2;
+    // non - critical section
+}
+Thread . start { // Q
+    // non - critical section
+    await (turn ==2);
+    // CRITICAL SECTION
+    turn = 1;
+    // non - critical section
+}
+</code></pre>
+
+<p>mutex: yes, absence live lock: yes, Free from startvation:no(a process could remain indefinitely in its non-critical section)</p>
+
+<h3 id="dekkersalgorithm"><strong>Dekker's Algorithm</strong></h3>
+
+<p><img src="2_9_Dekker's.png" alt="" /></p>
+
+<h3 id="petersonsalgorithm"><strong>Peterson's Algorithm</strong></h3>
+
+<p><img src="2_10_Peterson's.png" alt="" /></p>
+
+<h3 id="bakeryalgorithm"><strong>Bakery Algorithm</strong></h3>
+
+<p>People take a ticket from a machine. If nobody is waiting, tickets don't matter. When several people are waiting, ticket order determines order in which they can make purchases
+for two threads
+<img src="2_11_Bakery's.png" alt="" />
+If there are multiple threads:
+<img src="2_12_Bakery_for_n_thread.png" alt="" /></p>
+
+<h2 id="semaphore"><strong>Semaphore</strong></h2>
+
+<h3 id="diningphiliosophores"><strong>Dining Philiosophores</strong></h3>
+
+<pre><code>Semaphore[ ] forks = [1,...,1]; //N
+Semaphore chairs = new Semaphore(N-1);
+</code></pre>
+
+<h3 id="manwomanrestroom"><strong>Man/Woman Restroom</strong></h3>
+
+<pre><code>import java.util.concurrent.Semaphore;
+
+int man = 0, woman=0;
+Semaphore manmutex = new Semaphore(1);
+Semaphore womanmutex = new Semaphore(1);
+Semaphore toilets = new Semaphore(n);
+Semaphore restroom = new Semaphore(1);
+
+Thread.start {
+    // man
+    manmutex.acquire();
+    if(man == 0){
+        restroom.acquire(); 
+    }
+    man++;
+    manmutex.release();
+
+    toilets.acquire();
+    // man in restroom
+    toilets.release();
+
+    manmutex.acquire();
+    man--;
+    if(man==0){
+        restroom.release();
+    }
+    manmutex.release();
+}
+
+Thread.start {
+    // woman
+    womanmutex.acquire();
+    if(woman == 0){
+        restroom.acquire(); 
+    }
+    woman++;
+    womanmutex.release();
+
+    toilets.acquire();
+    // man in restroom
+    toilets.release();
+
+    womanmutex.acquire();
+    woman--;
+    if(woman==0){
+        restroom.release();
+    }
+    womanmutex.release();
+}
+</code></pre>
+
+<h3 id="ferrymove"><strong>Ferry Move</strong></h3>
+
+<p>import java.util.concurrent.Semaphore;</p>
+
+<p>int max=?,cur=0,coast=0;
+Semaphore permitOn = new Semaphore(1);
+Semaphore permitOff = new Semaphore(0);
+Semaphore ferryMove = new Semaphore(0);</p>
+
+<p>Thread.start {
+    // ferry
+    while(true){
+        ferryMove.acquire();
+        coast=1-coast;
+        // move
+        permitOff.release();
+    }
+}</p>
+
+<p>Thread.start {
+    // passengers
+    permitOn.acquire();
+    cur++;
+    if(cur==max){
+        ferryMove.release();
+    }else{
+        permitOn.release();
+    }</p>
+
+<pre><code>permitOff.acquire();
+cur--;
+if(cur==0){
+    permitOn.release();
+}else{
+    permitOff.release();
+}
+</code></pre>
+
+<p>}</p>
+
+<h3 id="threestationstocleancar">three stations to clean car</h3>
+
+<pre><code>import java.util.concurrent.Semaphore;
+
+Semaphore blast = new Semaphore(1);
+Semaphore rinse = new Semaphore(1);
+Semaphore dry = new Semaphore(1);
+
+Semaphore waitSet[3] = {new Semaphore(0),new Semaphore(0),new Semaphore(0)};
+
+Thread.start { // car
+    waitSet[0].release();
+    blast.acquire();
+    waitSet[1].release();
+    rinse.acquire();
+    exwaitSetist[2].release();
+    dry.acquire();
+}
+
+Thread.start { // blast
+    while(true){
+        waitSet[0].acquire();
+        // do blast
+        blast.release();
+    }
+}
+
+Thread.start { // rinse
+    while(true){
+        waitSet[1].acquire();
+        // do rinse
+        rinse.release();
+    }
+}
+
+Thread.start { //dry
+    while(true){
+        waitSet[2].acquire();
+        // do dry
+        dry.release();
+    }
+}
+</code></pre>
+
+<h2 id="monitor"><strong>Monitor</strong></h2>
+
+<p>synchronized,Condition,monitor <br />
+notify(),notifyAll(),wait()</p>
+
+<h3 id="buffer"><strong>Buffer</strong></h3>
+
+<pre><code>class Buffer {
+    Object buffer = null; // shared buffer
+    synchronized Object consume() {
+        while (buffer == null)
+            wait(); // wait on object 's wait -set
+        Object aux = buffer;
+        buffer = null;
+        notifyAll(); // signal on object 's wait - set
+        return aux;
+    }
+
+    synchronized void produce(Object o) {
+        while (buffer != null)
+            wait(); // wait on object 's wait -set
+        buffer = o;
+        notifyAll(); // signal on object 's wait - set
+    }
+}
+</code></pre>
+
+<h3 id="readerwriters"><strong>Reader/Writers</strong></h3>
+
+<pre><code>monitor RW {
+  int readers = 0;
+  int writers = 0;
+  condition OKtoRead , OKtoWrite ;
+
+  public void StartRead () {
+    while ( writers != 0 or !OKtoWrite . empty ()) {
+      OKtoRead . wait ();
+    }
+    readers = readers + 1;
+  }
+
+  public void EndRead {
+    readers = readers - 1;
+    if ( readers ==0) {
+      OKtoWrite . notify ();
+    }
+  }
+  public void StartWrite () {
+    while ( writers != 0 or readers != 0) {
+      OKtoWrite . wait ();
+    }
+    writers = writers + 1;
+  }
+
+  public void EndWrite () {
+    writers = writers - 1;
+    OKtoWrite . signal ();
+    OKtoRead . signalAll ();
+  }
+}
+</code></pre>
+
+<p>It gives priority to readers over writers.</p>
+
+<h2 id="erlangsyntax"><strong>Erlang Syntax</strong></h2>
+
+<ul>
+<li><p><strong>Comment</strong> %</p></li>
+
+<li><p><strong>Variables</strong>: start with upper case letter; <strong>Only bound once</strong></p></li>
+
+<li><p><strong>String</strong></p>
+
+<ul>
+<li>Characters: $a, $n</li>
+
+<li>String: a list of integers <br />
+"hello\7" : [104,101,108,111,7]</li></ul></li>
+
+<li><p><strong>Operators</strong></p>
+
+<ul>
+<li>Arithmetic: +, -, *, /, div (get Integer), rem (mod)</li>
+
+<li>Equal value: ==, /= (!=), =:= (type, value), =/= (! ===)</li>
+
+<li>Boolean: and, or, xor, not, andalso, orelss</li></ul></li>
+
+<li><p><strong>Lists</strong></p>
+
+<ul>
+<li>synstax: [ ], [ head | remain ]</li>
+
+<li>Operator: ++, --; <br />
+eg: <code>L ++ [aa]. ; L -- [aa].</code></li></ul></li>
+
+<li><p><strong>Comparison</strong> <br />
+number &lt; atom &lt; reference &lt; fun &lt; port &lt; pid &lt; tuple &lt;
+map &lt; nil &lt; list &lt; bitstring</p></li>
+
+<li><p><strong>Function</strong> <br />
+start with lowercase letter <br />
+<code>fun(0) -&gt; 1;</code> <br />
+<code>fun(N) -&gt; when N&gt;0 -&gt; N*fun(N-1);</code> <br />
+<code>fun(_) -&gt; others.</code> <br />
+<code>% _ represent don't care variable</code></p></li>
+
+<li><p><strong>Print</strong> <br />
+io:format("~p ~p",[Num1,Num2]). <br />
+io:fwrite("~p ~p",[Num1,Num2]). </p></li>
+
+<li><p><strong>Module Complie</strong>  </p>
+
+<ul>
+<li>module name should be same like file name without extension <br />
+.erl file <br />
+-module(module<em>name). <br />
+-compile(export</em>all).  </li></ul></li>
+
+<li><p><strong>Type Check</strong> <br />
+is<em>atom/1 <br />
+is</em>function/1 <br />
+is<em>boolean/1 <br />
+is</em>record/1 </p></li>
+
+<li><p><strong>-spec</strong> <br />
+use this to define a function arguments' type and return type  </p>
+
+<pre><code>-spec Function(Arguments_type) -&gt; RT.  
+-spec Function(Arguments::Type) -&gt; RT.
+</code></pre>
+
+<p>init dialyzer: <code>dialyzer -- build_plt --apps erts kernel stdlib crypto
+mnesia sasl common_test eunit</code> <br />
+use <code>dialyzer module_name.erl</code> to check the function type <br />
+type expression used in -spec <br />
+| Syntax            |     Description      |
+| :---------------- | :------------------: |
+| type \| type2     |    type or type2     |
+| term()            |        any()         |
+| boolean()         |  'false' \| 'true'   |
+| byte()            |        0..255        |
+| char()            |     0..16#10ffff     |
+| nil()             |          []          |
+| number()          | integer() - float()  |
+| list()            |       [any()]        |
+| nonempty<em>list()   | nonempty list(any()) |
+| string()          |       [char()]       |
+| nonempty</em>string() |     [char(),...]     |
+| function()        |        fun()         |
+| module()          |        atom()        |
+| no_return()       |        none()        |</p></li>
+
+<li><p><strong>Record</strong> <br />
+data like json <br />
+<code>-record ( record_name , { some_field , some_default = " yeah !", unimaginative_name }).</code> <br />
+if record in .hrl file, this should be included in .erl file <br />
+<code>-include(module_name.hrl).</code> <br />
+e.g: <br />
+<code>-record(robot, {name,type=industrial, hobbies, details=[ ] })</code> <br />
+<code>#rebot{name="Mechatron", type = handmade,details = ["Moved by a samll man inside"]}.</code> <br />
+<code>%access field</code> <br />
+<code>variable#rebot.name</code></p></li>
+
+<li><p><strong>Type</strong> <br />
+define a data structure more convenient than record <br />
+<code>-type btree()::{empty}|{node, term(),btree(),btree()}.</code></p></li>
+
+<li><p><strong>Exception</strong>
+<code>throw(permission_denied).</code></p>
+
+<pre><code>try Expression of 
+SuccessfulPattern1 [Guards] -&gt; 
+    Expression1; 
+SuccessfulPattern2 [Guards] -&gt; 
+  Expression2 
+catch 
+TypeOfError:ExceptionPattern1 -&gt; 
+  Expression3; 
+TypeOfError:ExceptionPattern2 -&gt; 
+  Expression4 
+after
+Expression5
+end
+</code></pre></li>
+
+<li><p><strong>Control Structures</strong></p>
+
+<pre><code>if
+X &gt; Y -&gt;
+  true;
+true -&gt; % works as else branch
+  false
+end
+</code></pre>
+
+<pre><code>case expression of
+value1 -&gt; statement#1;
+value2 -&gt; statement#2;
+valueN -&gt; statement#N
+end.
+</code></pre></li>
+
+<li><p><strong>-spawn</strong> <br />
+creates a new process and returns the pid.</p>
+
+<pre><code>spawn(Module, Name, Args) -&gt; pid()
+</code></pre></li>
+
+<li><p><strong>Message Passing</strong> <br />
+use <code>flush().</code> can get message from shell. <br />
+<code>PID ! msg</code> is non-blocking, it will send message <code>msg</code> to process PID</p>
+
+<pre><code>Pid  ! Message
+% send multiple messages
+Pid1 ! Message, Pid2 ! Message, Pid3 ! Message
+Pid1 ! (Pid2 ! (Pid3 ! Message))
+Pid1 ! Pid2 ! Pid3 ! Message
+</code></pre>
+
+<p>receive blocks until a message is available in the mailbox;</p>
+
+<pre><code>receive
+Pattern1 when Guard1 -&gt;
+  ToDo1;
+Pattern2 when Guard2 -&gt;
+  ToDo2;
+_Other -&gt;
+  Catch_all
+after time-&gt;
+  timeout
+% after part will triggered if time milliseconds have passed without receiving a message that matched the pattern
+end
+</code></pre>
+
+<p>e.g:</p>
+
+<pre><code>-module ( echo ).
+-export ([ start /0]).
+
+echo () -&gt;
+receive
+  {From , Msg} -&gt;
+    From ! { Msg },
+    echo ();
+  stop -&gt; true
+end .
+
+start () -&gt;
+Pid = spawn ( fun echo /0) , 
+% Returns pid of a new process
+% started by the application of echo /0 to []
+Token = " Hello Server !", 
+% Sending tokens to the server
+Pid ! { self (), Token },
+io: format (" Sent ~s~n",[ Token ]),
+receive
+  { Msg } -&gt;
+  io: format (" Received ~s~n", [Msg ])
+end ,
+Pid ! stop . 
+% Stop server
+</code></pre>
+
+<p><code>make_ref().</code> can get a global reference objects </p></li>
+
+<li><p><strong>Semaphore</strong></p>
+
+<pre><code>-module(sem).
+-compile(export_all).
+
+start_sem(Init) -&gt;
+  spawn(?MODULE,sem_loop,[Init]).
+
+sem_loop(0) -&gt;
+  receive
+    {release} -&gt;
+      sem_loop(1)
+  end;
+sem_loop(P) when P&gt;0 -&gt;
+  receive
+    {release} -&gt;
+      sem_loop(P+1);
+    {acquire,From} -&gt;
+      From!{ack},
+      sem_loop(P-1)
+  end.
+
+acquire(S) -&gt;
+  S!{acquire,self()},
+  receive
+    {ack} -&gt;
+      done
+  end.
+
+release(S) -&gt;
+  S!{release}.
+</code></pre></li>
+
+<li><p><strong>Links</strong> <br />
+<code>link(Pid)</code> <br />
+<code>link(spawn(fun module_name:fun_name/N))</code> <br />
+<code>unlink/1</code> can tear the link down  </p></li>
+
+<li><p><strong>counter</strong></p></li>
+</ul>
+
+<pre><code>-module(ex1). 
+-compile(export_all).
+
+start(N) -&gt; 
+%% Spawns a counter and N turnstile clients
+C = spawn(?MODULE ,counter_server ,[0]),
+[ spawn(?MODULE ,turnstile ,[C,50]) || _ &lt;- lists:seq(1,N)], 
+C.
+
+counter_server(State) -&gt; 
+%% State is the current value of the counter 
+    receive
+    {bump} -&gt;
+        counter_server(State+1);
+    {read,From} -&gt;
+        From!State,
+        counter_server(State)
+    end.
+
+turnstile(_C,0) -&gt; 
+%% C is the PID of the counter, and N the number of  
+%% times the turnstile turns
+    done;
+turnstile(C,N) when N&gt;0 -&gt;
+    C!{bump},
+    turnstile(C,N-1).
+</code></pre>
+
+<p><strong>print letter before number</strong></p>
+
+<pre><code>-module(barr).
+-compile(export_all).
+
+start(N) -&gt;
+    B = spawn(?MODULE,loop,[2,2,[]]),
+    spawn(?MODULE,client1,[B]),
+    spawn(?MODULE,client2,[B]),
+    ok.
+
+% loop(N,M,L) 
+% the main loop for a barrier of size N
+% M are the number of threads yet to reach the barrier
+% L is the list of PID,Ref of the threads that have already reached the barrier
+
+loop(N,0,L) -&gt;
+    [ Pid!{ok,Ref} || {Pid,Ref} &lt;- L ],
+    loop(N,N,[]);
+loop(N,M,L) -&gt;
+    receive
+        {From,Ref} -&gt;
+            loop(N,M-1,[{From,Ref}|L])
+end.
+
+reached(B) -&gt;
+    R = make_ref(),
+    B!{self(),R},
+    receive
+        {ok,R} -&gt;
+            ok
+    end.
+
+
+client1(B) -&gt;
+    io:format("a~n"),
+    reached(B),
+    io:format("1~n").
+
+client2(B) -&gt;
+    io:format("b~n"),
+    reached(B),
+    io:format("2~n").
+</code></pre>
+
+<h2 id="promela">promela</h2>
+
+<p>active spawn a process type. <code>active protype P(){}</code> <br />
+<code>init</code> is the first process that is activated <br />
+<code>run</code>instantiates a process</p>
+
+<pre><code>init {
+  n = 1;
+  atomic {
+    run P(1, 10);
+    run P(2, 15)
+  }
+}
+</code></pre>
+
+<p>assert();</p>
+
+<pre><code>do
+  :: i &gt; N -&gt; break
+  :: else -&gt;
+    sum = sum + i;
+    i++
+od;
+</code></pre>
+
+<pre><code>for (i : 1 .. N) {
+  sum = sum +i;
+}
+</code></pre>
+
+<p><strong>Transition Systems</strong> <br />
+<img src="7_1_transitionSystems.png" alt="" />
+<img src="7_2_pathFragment.png" alt="" />
+<img src="7_3_path.png" alt="" /></p>

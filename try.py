@@ -1,13 +1,17 @@
-class move:
-    def __init__(self):
-        self.a = "a"
-        print(self.b)
+import numpy as np
 
-    def b(self):
-        self.b="b"
-    def c(self):
-        self.c="b"
-        print(self.b)
+a = np.array([(1,2,3),(4,5,6)])
 
-aaa = move()
-aaa.c
+
+def twoMaxes(L):
+    row = []
+    for i in range(len(a[0])):
+        row.append(max(a[:,i]))
+
+    column = []
+    for j in range(len(a[:,0])):
+        column.append(max(a[j]))
+    print(row)
+    print(column)
+
+twoMaxes(a)
