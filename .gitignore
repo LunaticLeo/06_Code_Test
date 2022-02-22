@@ -1,5 +1,5 @@
 try_erlang.beam
-*/node_modules
+node_modules
 try.exe
 try.o
 *.class
