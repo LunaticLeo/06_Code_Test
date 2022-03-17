@@ -1,5 +1,2 @@
+console.log( 213 && 321)
 
-module.exports = {
-    data: "123",
-    data2: "456"
-};
