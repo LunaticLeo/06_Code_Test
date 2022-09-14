@@ -1,8 +1,3 @@
-import numpy as np
+list  = [1,2,3]
 
-a = np.array([[1,2,3],[4,5,6]])
-
-b = np.array([1,5,6])
-
-print(a.shape,b.shape)
-print(a+b)
+print(list)

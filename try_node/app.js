@@ -4,9 +4,12 @@ const path = require('path');
 
 app.use(express.static(__dirname+'/front/'));
 
-app.get('/', (req, res) => {
+app.get('/user', (req, res) => {
+    console.log(req.query);
     res.sendFile('chat.html');
 });
+
+
 
 app.use('*', (req, res) => {
     res.status(404).json({ error: 'Page Not found' });
