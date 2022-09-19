@@ -1,3 +1,5 @@
+import math
+
 list  = [1,2,3]
 
-print(list)
+print(math.floor(2.8))
