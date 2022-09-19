@@ -6,4 +6,5 @@ cd ../Master && git add . && git commit . -m %message% && git push
 cd ../Jobs && git add . && git commit . -m %message% && git push
 cd ../Code_Try && git add . && git commit . -m %message% && git push
 cd ../Algorithm && git add . && git commit . -m %message% && git push
+echo "Sync complete"
 pause
