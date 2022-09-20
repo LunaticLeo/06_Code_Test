@@ -4,17 +4,17 @@ set message=%date:~6,4%%date:~0,2%%date:~3,2%
 echo. && echo 'Sync Gradute Folder' 
 cd ../Graduate && git add . && git commit . -m %message% && git push
 
-echo 'Sync Master Folder'
+echo. && echo 'Sync Master Folder'
 cd ../Master && git add . && git commit . -m %message% && git push
 
-echo 'Sync Jobs Folder'
+echo. && echo 'Sync Jobs Folder'
 cd ../Jobs && git add . && git commit . -m %message% && git push
 
-echo 'Sync Code_Test Folder'
+echo. && echo 'Sync Code_Test Folder'
 cd ../Code_Test && git add . && git commit . -m %message% && git push
 
-echo 'Sync Algorithm Folder'
+echo. && echo 'Sync Algorithm Folder'
 cd ../Algorithm && git add . && git commit . -m %message% && git push
 
-echo "Sync complete"
+echo. && echo "Sync complete"
 pause
