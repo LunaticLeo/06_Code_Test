@@ -5,16 +5,16 @@ echo. && echo 'Sync Gradute Folder'
 cd ../Graduate && git commit -am %message% && git push
 
 echo. && echo 'Sync Master Folder'
-cd ../Master && git add . && git commit . -m %message% && git push
+cd ../Master && git commit -am %message% && git push
 
 echo. && echo 'Sync Jobs Folder'
-cd ../Jobs && git add . && git commit . -m %message% && git push
+cd ../Jobs && git commit -am %message% && git push
 
 echo. && echo 'Sync Code_Test Folder'
-cd ../Code_Test && git add . && git commit . -m %message% && git push
+cd ../Code_Test && git commit -am %message% && git push
 
 echo. && echo 'Sync Algorithm Folder'
-cd ../Algorithm && git add . && git commit . -m %message% && git push
+cd ../Algorithm && git commit -am %message% && git push
 
 echo. && echo "Sync complete"
 pause
