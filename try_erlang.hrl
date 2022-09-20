@@ -1,1 +1,0 @@
--record(ship,{id,name}).
