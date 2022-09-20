@@ -1,20 +1,20 @@
 @echo off
 title Sync floders to github
 set message=%date:~6,4%%date:~0,2%%date:~3,2%
-echo '\nSync Gradute Folder' 
+echo ' ' && echo 'Sync Gradute Folder' 
 cd ../Graduate && git add . && git commit . -m %message% && git push
 
-echo '\nSync Master Folder'
+echo ' ' && echo 'Sync Master Folder'
 cd ../Master && git add . && git commit . -m %message% && git push
 
-echo '\nSync Jobs Folder'
+echo ' ' && echo 'Sync Jobs Folder'
 cd ../Jobs && git add . && git commit . -m %message% && git push
 
-echo '\nSync Code_Test Folder'
+echo ' ' && echo 'Sync Code_Test Folder'
 cd ../Code_Test && git add . && git commit . -m %message% && git push
 
-echo '\nSync Algorithm Folder'
+echo ' ' && echo 'Sync Algorithm Folder'
 cd ../Algorithm && git add . && git commit . -m %message% && git push
 
-echo "\nSync complete"
+echo ' ' && echo "Sync complete"
 pause
