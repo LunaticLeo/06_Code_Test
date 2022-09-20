@@ -1,6 +1,7 @@
-try_erlang.beam
+test_erlang.beam
 node_modules
-try.exe
-try.o
+test.exe
+test.o
 *.class
 package-lock.json
+.ipynb_checkpoints
