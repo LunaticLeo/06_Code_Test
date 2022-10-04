@@ -1,2 +1,2 @@
-dic = {1:2}
-dic[2]
+char = 'A'
+print(type(char)==str)
