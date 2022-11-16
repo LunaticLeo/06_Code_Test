@@ -8,9 +8,7 @@ public class test
     
     public static void main( String[] args )
     {   
-        
-
-
+        // System.out.println("01" < "02");
 
         // try stream, collect
         // import java.util.*;
