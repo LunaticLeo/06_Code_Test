@@ -1,6 +1,6 @@
 @echo off
 title Sync floders to github
-set message=%date:~6,4%%date:~0,2%%date:~3,2%
+set message=%date:~10,4%
 echo. && echo 'Sync Gradute Folder' 
 cd ../Graduate && git commit -am %message% && git push
 
