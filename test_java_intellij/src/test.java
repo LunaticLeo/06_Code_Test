@@ -1,5 +1,11 @@
 public class test {
     public static void main(String[] args) {
-        System.out.println("hello intellij");
+
+    }
+
+    public class Solution {
+        public boolean hasCycle(int head) {
+            return false;
+        }
     }
 }

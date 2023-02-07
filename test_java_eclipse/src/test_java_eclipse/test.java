@@ -1,10 +1,6 @@
 package test_java_eclipse;
 
-import java.io.*;
-import java.util.*;
-import java.text.*;
-import java.math.*;
-import java.util.regex.*;
+import java.util.HashSet;
 
 public class test {
 
@@ -15,6 +11,10 @@ public class test {
 	public class Solution {
 
 		public static void main(String[] args) throws Exception {
+			HashSet<Integer> set = new HashSet<Integer>();
+			
+			
+			
 			
 			return;
 		}
