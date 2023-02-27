@@ -1,37 +1,18 @@
 // 汉字 [\u4e00-\u9fa5]
 
-const fs = require('fs');
+const axios = require("axios");
 
-const url = "C:\\Users\\liaoy\\OneDrive\\Desktop\\Application_Android\\read\\novels\\";
-const name = "锁情咒.txt"
+async function main() {
+    let str = "";
+    for (let i = 0; i < 100; i++) {
+        let { data } = await axios.get("https://0ijq1i6sp1.execute-api.us-east-1.amazonaws.com/dev/stream");
 
+        // console.log(data)
 
-
-fs.readFile(url + name, 'utf8', (err, data) => {
-
-    let fix = "";
-
-    if (err) {
-        console.error(err);
-        return;
+        str += data;
     }
+    console.log(str.length);
+    console.log(str);
+}
 
-    const lines = data.split("\r\n");
-
-    for(let i = 0; i < lines.length; i++){
-        if(lines[i].match(/^（[\u4e00-\u9fa5]+）$/)){
-            let content = lines[i].slice(1,-1);
-            fix += "第"+content+"章\r\n";
-        }else{
-            fix += lines[i] + "\r\n";
-        }
-    }
-
-    fs.writeFile(url + "fixed" + name, fix, err => {
-        if (err) {
-            console.error(err);
-        }
-    });
-});
-
-
+main();

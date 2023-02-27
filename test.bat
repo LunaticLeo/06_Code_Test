@@ -1,20 +1,27 @@
 @echo off
 title Sync floders to github
+set message=sync
 
-echo. && echo 'Sync Gradute Folder' 
-cd ../Graduate && git add . && git commit -am auto && git push
+echo 'Sync Liaoyufu Folder'
+cd ../Liaoyufu && git add . && git commit . -m %message% && git push
 
-echo. && echo 'Sync Master Folder'
-cd ../Master && git add . && git commit -am auto && git push
+echo 'Sync Jobs Folder'
+cd ../Jobs && git add . && git commit . -m %message% && git push
 
-echo. && echo 'Sync Jobs Folder'
-cd ../Jobs && git add . && git commit -am auto && git push
+echo 'Sync Gradute Folder'
+cd ../Graduate && git add . && git commit . -m %message% && git push
 
-echo. && echo 'Sync Code_Test Folder'
-cd ../Code_Test && git add . && git commit -am auto && git push
+echo 'Sync Master Folder'
+cd ../Master && git add . && git commit . -m %message% && git push
 
-echo. && echo 'Sync Algorithm Folder'
-cd ../Algorithm && git add . && git commit -am auto && git push
+echo 'Sync MasterLectures Folder'
+cd ../MasterLectures && git add . && git commit . -m %message% && git push
 
-echo. && echo "Sync complete"
+echo 'Sync Code_Test Folder'
+cd ../Code_Test && git add . && git commit . -m %message% && git push
+
+echo 'Sync Algorithm Folder'
+cd ../Algorithm && git add . && git commit . -m %message% && git push
+
+echo "Sync complete"
 pause
