@@ -1,1 +1,3 @@
-print(1)
+a = b = 0
+
+print(a, b)
