@@ -8,8 +8,9 @@ public class test
     
     public static void main( String[] args )
     {   
+        int max, i, j=0;
 
-        System.out.println( -1 / 1);
+        System.out.println(i);
         // System.out.println("01" < "02");
 
         // try stream, collect
