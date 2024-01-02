@@ -1,27 +1,5 @@
 @echo off
-title Sync floders to github
-set message=sync
 
-echo 'Sync Liaoyufu Folder'
-cd ../Liaoyufu && git add . && git commit . -m %message% && git push
 
-echo 'Sync Jobs Folder'
-cd ../Jobs && git add . && git commit . -m %message% && git push
 
-echo 'Sync Gradute Folder'
-cd ../Graduate && git add . && git commit . -m %message% && git push
-
-echo 'Sync Master Folder'
-cd ../Master && git add . && git commit . -m %message% && git push
-
-echo 'Sync MasterLectures Folder'
-cd ../MasterLectures && git add . && git commit . -m %message% && git push
-
-echo 'Sync Code_Test Folder'
-cd ../Code_Test && git add . && git commit . -m %message% && git push
-
-echo 'Sync Algorithm Folder'
-cd ../Algorithm && git add . && git commit . -m %message% && git push
-
-echo "Sync complete"
 pause
