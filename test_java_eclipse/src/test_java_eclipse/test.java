@@ -1,16 +1,18 @@
 package test_java_eclipse;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Scanner;
+import java.util.*;
 
 public class test {
 
 	public static void main(String[] args) throws Exception {
-		double [] arr ={ 1, 2, 3, 5	 };
+		System.out.println();
 		
-		System.out.println(Arrays.stream(arr).max());
+		
+		System.out.println("aaa".compareTo("b"));
+		
+		int[] arr = new int[10];
+		
+		
 	}
 
 	public class Solution {
