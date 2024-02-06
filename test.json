@@ -1,0 +1,12 @@
+{
+	"find": "accounts",
+	"match": {
+		"bucket": {
+			"timeLog": {
+				"count": {
+					"more": "40"
+				}
+			}
+		}
+	}
+}

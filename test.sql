@@ -56,3 +56,28 @@ order by accounts.username
 
 
 
+TABLE1: REALTIME_QUANTITY        
+ITEM    LOCATION    QUANTITY
+A       Newark        3
+B        San Jose    5
+C        Newark        4
+
+TABLE2: TRANSACTION_HISTORY
+ITEM    LOCATION    TRANSACTTION_QUANTITY   TRANSACTION_DATE
+A       Newark      +3                      06-FEB-2024
+B       Newark      -3                      03-FEB-2024
+D       San Jose    -5                      01-FEB-2024
+...
+
+with history as (
+    select item, location, count(TRANSACTION_HISTORY) as q
+    from TRANSACTION_HISTORY
+    group by item, location
+)
+select REALTIME_QUANTITY.item, REALTIME_QUANTITY.location, REALTIME_QUANTITY.QUANTITY - history.q
+
+from REALTIME_QUANTITY, history
+when REALTIME_QUANTITY right join history
+where 
+REALTIME_QUANTITY.item = history.item &&
+REALTIME_QUANTITY.location = history.location
