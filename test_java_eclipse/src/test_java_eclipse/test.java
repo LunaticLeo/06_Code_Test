@@ -11,10 +11,9 @@ import java.util.Scanner;
 public class test {
 
 	public static void main(String[] args) throws Exception {
-		System.out.println();
 		
+		System.out.println("bb".compareTo("b"));
 		
-		System.out.println("aaa".compareTo("b"));
 		
 		int[] arr = new int[10];
 		
