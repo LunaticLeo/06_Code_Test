@@ -1,14 +1,12 @@
 package test_java_eclipse;
 
-<<<<<<< HEAD
 import java.util.*;
-=======
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Scanner;
->>>>>>> 05407c7a90a441f70591a7dbe3df7ea7aff8c307
+
 
 public class test {
 
