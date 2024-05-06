@@ -11,28 +11,28 @@ import java.util.Scanner;
 public class test {
 
 	public static void main(String[] args) throws Exception {
-		
-		System.out.println("bb".compareTo("b"));
-		
-		
-		
-		int[] arr = new int[10];
-		
-		
+		String str = "Welcome to Pax.";
+
+        String[] a = str.split(" ");
+
+        int i =0, j = a.length -1;        
+
+        while(i<j){
+            String temp = a[i];
+            a[i] = a[j];
+            a[j] = temp;  
+            i++;
+            j--;
+        }
+
+        String output = "";
+
+        for(i= 0;i<a.length;i++){
+            output = output.concat(a[i] + " ");
+        }
+
+        System.out.println(output);
+
 	}
 
-	public static String solution(String s) {
-		HashMap<Character, Boolean >hm = new HashMap<Character, Boolean>();
-		
-		StringBuffer output = new StringBuffer();
-		
-		for(int i = 0; i<s.length();i++) {
-			if(hm.getOrDefault(s.charAt(i), false) == false) {
-				hm.put(s.charAt(i),true);
-				output.append(s.charAt(i));
-			}
-		}
-		
-		return output.toString();
-	}
 }
