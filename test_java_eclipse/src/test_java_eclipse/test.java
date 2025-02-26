@@ -8,13 +8,11 @@ public class test {
 
 	public static void main(String[] args) throws InterruptedException {
 
-		int[] arr = { 1, 11, 3, 2 };
-		
-		Integer[] list = Arrays.stream(new int[]{1,2,3}).boxed().toArray(Integer[]::new);
-
-		Arrays.sort(arr);
-		
-		System.out.print(arr.clone() == arr);
+		ArrayList<String> al = new ArrayList<>(); // Raw type, no generics
+        
+        al.add("1");
+        
+        System.out.print(al.add("2"));
 
 	}
 
