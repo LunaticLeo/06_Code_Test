@@ -1,57 +1,20 @@
 package test_java_eclipse;
-
-import java.util.Comparator;
-import java.io.IOException;
-
-@Deprecated // Use your custom annotation here
-public class test<T extends Number & Comparable<T>> extends Number implements Comparable<test<T>> {
-
-    // Fields
-    private T x;
-    public final String name;
+public class test {
+	//  error: non-static variable this cannot be referenced from a static context
+//    class test1{
+//        public static int i = 1;
+//    }
     
-    // Constructor
-    public test(int x, String name) {
-        this.x = (T) Integer.valueOf(x);  // Cast to T (assuming T is a subtype of Number like Integer)
-        this.name = name;
-    }
-    
-    // Methods
-    public void myMethod() throws IOException {
-        if (x.doubleValue() < 0) {
-            throw new IOException("Negative number");
-        }
-        System.out.println("Method executed with x = " + x);
-    }
-
-    public static void staticMethod() {
-        System.out.println("This is a static method");
-    }
-
-    public void defaultMethod() {
-        System.out.println("This is a default method");
-    }
-
-    // imolement Comparable interface
-    public int compareTo(test<T> other) {
-        return x.compareTo(other.x);  // Comparing the 'x' field of the class
-    }
-
-    @Override 
-    public int intValue() {
-        return x.intValue();  // Implementation of abstract method from Number class
-    }
-    
-    // Inner class implementing method from Comparable
-    public class InnerClass implements Comparable<test<T>> {
-        @Override
-        public int compareTo(test<T> o) {
-            return x.compareTo(o.x);
-        }
-    }
-    
-    public static void main(String[] args)
-    {
-        System.out.println("test");
-    }
+    // static inner class
+	static class test2 { 
+		public static int i = 0;
+	}
+	public static void main(String[] args) {
+		class test3 {
+			public static int i = 1;
+		}
+		test2 t2 = new test2();
+		test3 t3 = new test3();
+		System.out.println(t2.i + " " + t3.i);
+	}
 }
